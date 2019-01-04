@@ -1,0 +1,21 @@
+persistence:
+  enabled: true
+  size: 50Gi
+  storageClass: azurefile 
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 0.1
+  limits:
+    memory: 2Gi
+    cpu: 4
+config:
+  opentsdb:
+    enabled: true
+keel:
+  policy: all
+  trigger: poll
+  pollSchedule: "@every 1h"
+  images:
+    - repository: image.repo
+      tag: image.tag

@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: chronograf 
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - chronograf.thedoodleproject.org
+    secretName: tls-secret
+  rules:
+  - host: chronograf.thedoodleproject.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: chronograf-chronograf
+          servicePort: 8888 

@@ -1,0 +1,14 @@
+image:
+  tag: latest
+persistence:
+  existingClaim: "data"
+  subpath: "minio"
+ingress:
+  enabled: false 
+keel:
+  policy: force
+  trigger: poll
+  pollSchedule: "@every 1h"
+  images:
+    - repository: image.repository
+      tag: image.tag

@@ -1,0 +1,12 @@
+persistence:
+  enabled: true
+  storage-class: azurefile
+ingress:
+  enabled: false
+keel:
+  policy: "regexp:^([0-9][0-9][0-9])$"
+  trigger: poll
+  pollSchedule: "@every 1h"
+  images:
+    - repository: image.repository
+      tag: image.tag

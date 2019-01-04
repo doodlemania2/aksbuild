@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: webtest-deploy
+  labels: 
+    app: webtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webtest
+  template:
+    metadata:
+      labels:
+        app: webtest
+    spec:
+      containers:
+      - name: websvr
+        image: nginx
+        ports:
+          - name: http
+            containerPort: 80
+        volumeMounts:
+            # name must match the volume name below
+            - name: appvol
+              mountPath: "/usr/share/nginx/html"
+      volumes:
+      - name: appvol
+        persistentVolumeClaim:
+          claimName: nfs-data
+---
+#Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webtest
+#  namespace: corp-lab
+  labels:
+    app: corpweb
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: webtest  
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: webtest
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - webtest.thedoodleproject.org
+    secretName: tls-secret
+  rules:
+  - host: webtest.thedoodleproject.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: webtest
+          servicePort: 80

@@ -17,5 +17,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: nextcloud-nextcloud
+          serviceName: nextcloud 
           servicePort: 80

@@ -78,7 +78,7 @@ externalDatabase:
   user: "root"
 
   ## Database password
-  password: "oSyF5IhKIpJw0tF_"
+  password: ""
 
   ## Database name
   database: "nextcloud"
@@ -168,7 +168,7 @@ persistence:
     ## Requires persistence.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
     # existingClaim:
-    existingClaim: "data-nextcloud"
+    existingClaim: "nfs-nextcloud"
 
   extraExistingClaimMounts: []
     # - name: external-mount
